@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tic-Tac-Toe Game</title>
+    <title>Stopwatch App</title>
     <style>
         * {
             margin: 0;
@@ -21,7 +21,7 @@
             padding: 20px;
         }
 
-        .game-container {
+        .stopwatch-container {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(20px);
             border-radius: 25px;
@@ -31,10 +31,10 @@
             text-align: center;
             max-width: 500px;
             width: 100%;
-            animation: slideIn 0.6s ease-out;
+            animation: slideUp 0.6s ease-out;
         }
 
-        @keyframes slideIn {
+        @keyframes slideUp {
             from {
                 opacity: 0;
                 transform: translateY(30px);
@@ -49,190 +49,52 @@
             color: white;
             font-size: 2.5rem;
             font-weight: 300;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         }
 
-        .game-mode {
-            margin-bottom: 30px;
-        }
-
-        .mode-buttons {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .mode-btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 25px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .mode-btn.active {
-            background: linear-gradient(45deg, #00b894, #00cec9);
-            color: white;
-            box-shadow: 0 8px 25px rgba(0, 184, 148, 0.3);
-        }
-
-        .mode-btn:not(.active) {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .mode-btn:hover {
-            transform: translateY(-2px);
-        }
-
-        .game-info {
-            margin-bottom: 30px;
-        }
-
-        .current-player {
-            color: white;
-            font-size: 1.3rem;
-            font-weight: 500;
-            margin-bottom: 10px;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-        }
-
-        .score-board {
-            display: flex;
-            justify-content: space-around;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 15px;
-            padding: 15px;
-            margin-bottom: 20px;
-        }
-
-        .score-item {
-            text-align: center;
-            color: white;
-        }
-
-        .score-label {
-            font-size: 0.9rem;
-            opacity: 0.8;
-            margin-bottom: 5px;
-        }
-
-        .score-value {
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-
-        .game-board {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            max-width: 300px;
-            margin: 0 auto 30px;
-            background: rgba(0, 0, 0, 0.2);
-            padding: 15px;
+        .display {
+            background: rgba(0, 0, 0, 0.3);
             border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
         }
 
-        .cell {
-            aspect-ratio: 1;
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-radius: 15px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 3rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
+        .time {
+            font-size: 4rem;
+            font-weight: 400;
+            color: #ffffff;
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            letter-spacing: 3px;
+            transition: all 0.1s ease;
         }
 
-        .cell:hover:not(.taken) {
-            background: rgba(255, 255, 255, 0.2);
-            transform: scale(1.05);
-            border-color: rgba(255, 255, 255, 0.4);
-        }
-
-        .cell.taken {
-            cursor: not-allowed;
-        }
-
-        .cell.x {
-            color: #e74c3c;
-            text-shadow: 0 0 20px rgba(231, 76, 60, 0.5);
-        }
-
-        .cell.o {
-            color: #3498db;
-            text-shadow: 0 0 20px rgba(52, 152, 219, 0.5);
-        }
-
-        .cell.winner {
-            background: rgba(255, 255, 255, 0.3) !important;
-            animation: winnerGlow 1s ease-in-out infinite alternate;
-        }
-
-        @keyframes winnerGlow {
-            from {
-                box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
-            }
-            to {
-                box-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
-            }
-        }
-
-        .cell-content {
-            animation: popIn 0.3s ease-out;
-        }
-
-        @keyframes popIn {
-            from {
-                transform: scale(0);
-                opacity: 0;
-            }
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        .game-status {
-            color: white;
-            font-size: 1.4rem;
-            font-weight: 500;
-            margin-bottom: 20px;
-            min-height: 1.4rem;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        .milliseconds {
+            font-size: 2rem;
+            color: rgba(255, 255, 255, 0.8);
         }
 
         .controls {
             display: flex;
             gap: 15px;
             justify-content: center;
+            margin-bottom: 30px;
             flex-wrap: wrap;
         }
 
         .btn {
-            padding: 12px 24px;
+            padding: 15px 30px;
             border: none;
-            border-radius: 25px;
+            border-radius: 50px;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 1px;
+            min-width: 120px;
             position: relative;
             overflow: hidden;
         }
@@ -252,6 +114,28 @@
             left: 100%;
         }
 
+        .btn-start {
+            background: linear-gradient(45deg, #00b894, #00cec9);
+            color: white;
+            box-shadow: 0 8px 25px rgba(0, 184, 148, 0.3);
+        }
+
+        .btn-start:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(0, 184, 148, 0.4);
+        }
+
+        .btn-pause {
+            background: linear-gradient(45deg, #fdcb6e, #e17055);
+            color: white;
+            box-shadow: 0 8px 25px rgba(253, 203, 110, 0.3);
+        }
+
+        .btn-pause:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(253, 203, 110, 0.4);
+        }
+
         .btn-reset {
             background: linear-gradient(45deg, #e84393, #fd79a8);
             color: white;
@@ -263,59 +147,114 @@
             box-shadow: 0 12px 35px rgba(232, 67, 147, 0.4);
         }
 
-        .btn-new {
+        .btn-lap {
             background: linear-gradient(45deg, #6c5ce7, #a29bfe);
             color: white;
             box-shadow: 0 8px 25px rgba(108, 92, 231, 0.3);
         }
 
-        .btn-new:hover {
+        .btn-lap:hover {
             transform: translateY(-2px);
             box-shadow: 0 12px 35px rgba(108, 92, 231, 0.4);
         }
 
-        .difficulty {
-            margin-top: 20px;
-            display: none;
+        .btn:active {
+            transform: translateY(0);
         }
 
-        .difficulty.show {
-            display: block;
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
         }
 
-        .difficulty-label {
-            color: white;
-            font-size: 1rem;
-            margin-bottom: 10px;
-        }
-
-        .difficulty-buttons {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .difficulty-btn {
-            padding: 8px 16px;
-            border: none;
+        .laps-container {
+            max-height: 300px;
+            overflow-y: auto;
+            background: rgba(0, 0, 0, 0.2);
             border-radius: 15px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .difficulty-btn.active {
-            background: linear-gradient(45deg, #fdcb6e, #e17055);
-            box-shadow: 0 5px 15px rgba(253, 203, 110, 0.3);
+        .laps-title {
+            color: white;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            font-weight: 300;
+        }
+
+        .lap-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: white;
+            border-left: 4px solid #a29bfe;
+            animation: lapSlide 0.3s ease-out;
+            transition: all 0.3s ease;
+        }
+
+        .lap-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateX(5px);
+        }
+
+        @keyframes lapSlide {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .lap-number {
+            font-weight: 600;
+            color: #a29bfe;
+        }
+
+        .lap-time {
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+            font-weight: 400;
+        }
+
+        .running {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { text-shadow: 0 0 20px rgba(255, 255, 255, 0.5); }
+            50% { text-shadow: 0 0 30px rgba(255, 255, 255, 0.8); }
+            100% { text-shadow: 0 0 20px rgba(255, 255, 255, 0.5); }
+        }
+
+        /* Scrollbar styling */
+        .laps-container::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .laps-container::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+
+        .laps-container::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+        }
+
+        .laps-container::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
         }
 
         @media (max-width: 600px) {
-            .game-container {
+            .stopwatch-container {
                 padding: 30px 20px;
             }
             
@@ -323,12 +262,8 @@
                 font-size: 2rem;
             }
             
-            .game-board {
-                max-width: 250px;
-            }
-            
-            .cell {
-                font-size: 2.5rem;
+            .time {
+                font-size: 3rem;
             }
             
             .controls {
@@ -344,318 +279,149 @@
     </style>
 </head>
 <body>
-    <div class="game-container">
-        <h1 class="title">Tic-Tac-Toe</h1>
+    <div class="stopwatch-container">
+        <h1 class="title">Stopwatch</h1>
         
-        <div class="game-mode">
-            <div class="mode-buttons">
-                <button class="mode-btn active" onclick="setGameMode('pvp')" id="pvpBtn">Player vs Player</button>
-                <button class="mode-btn" onclick="setGameMode('ai')" id="aiBtn">Player vs AI</button>
+        <div class="display">
+            <div class="time" id="timeDisplay">
+                00:00:<span class="milliseconds">00</span>
             </div>
         </div>
-
-        <div class="difficulty" id="difficultySection">
-            <div class="difficulty-label">AI Difficulty:</div>
-            <div class="difficulty-buttons">
-                <button class="difficulty-btn active" onclick="setDifficulty('easy')" id="easyBtn">Easy</button>
-                <button class="difficulty-btn" onclick="setDifficulty('medium')" id="mediumBtn">Medium</button>
-                <button class="difficulty-btn" onclick="setDifficulty('hard')" id="hardBtn">Hard</button>
-            </div>
-        </div>
-        
-        <div class="score-board">
-            <div class="score-item">
-                <div class="score-label" id="player1Label">Player X</div>
-                <div class="score-value" id="player1Score">0</div>
-            </div>
-            <div class="score-item">
-                <div class="score-label">Draws</div>
-                <div class="score-value" id="drawScore">0</div>
-            </div>
-            <div class="score-item">
-                <div class="score-label" id="player2Label">Player O</div>
-                <div class="score-value" id="player2Score">0</div>
-            </div>
-        </div>
-        
-        <div class="game-info">
-            <div class="current-player" id="currentPlayer">Player X's Turn</div>
-        </div>
-        
-        <div class="game-board" id="gameBoard">
-            <div class="cell" onclick="makeMove(0, 0)" id="cell-0-0"></div>
-            <div class="cell" onclick="makeMove(0, 1)" id="cell-0-1"></div>
-            <div class="cell" onclick="makeMove(0, 2)" id="cell-0-2"></div>
-            <div class="cell" onclick="makeMove(1, 0)" id="cell-1-0"></div>
-            <div class="cell" onclick="makeMove(1, 1)" id="cell-1-1"></div>
-            <div class="cell" onclick="makeMove(1, 2)" id="cell-1-2"></div>
-            <div class="cell" onclick="makeMove(2, 0)" id="cell-2-0"></div>
-            <div class="cell" onclick="makeMove(2, 1)" id="cell-2-1"></div>
-            <div class="cell" onclick="makeMove(2, 2)" id="cell-2-2"></div>
-        </div>
-        
-        <div class="game-status" id="gameStatus"></div>
         
         <div class="controls">
-            <button class="btn btn-reset" onclick="resetGame()">Reset Game</button>
-            <button class="btn btn-new" onclick="newRound()">New Round</button>
+            <button class="btn btn-start" id="startBtn" onclick="startStop()">Start</button>
+            <button class="btn btn-lap" id="lapBtn" onclick="recordLap()" disabled>Lap</button>
+            <button class="btn btn-reset" id="resetBtn" onclick="reset()">Reset</button>
+        </div>
+        
+        <div class="laps-container" id="lapsContainer" style="display: none;">
+            <h3 class="laps-title">Lap Times</h3>
+            <div id="lapsList"></div>
         </div>
     </div>
 
     <script>
-        // Game state
-        let board = [
-            ['', '', ''],
-            ['', '', ''],
-            ['', '', '']
-        ];
-        let currentPlayer = 'X';
-        let gameMode = 'pvp'; // 'pvp' or 'ai'
-        let aiDifficulty = 'easy'; // 'easy', 'medium', 'hard'
-        let gameActive = true;
-        let scores = { X: 0, O: 0, draws: 0 };
+        let startTime = 0;
+        let elapsedTime = 0;
+        let timerInterval = null;
+        let isRunning = false;
+        let lapCount = 0;
 
-        // DOM elements
-        const currentPlayerDisplay = document.getElementById('currentPlayer');
-        const gameStatusDisplay = document.getElementById('gameStatus');
-        const player1ScoreDisplay = document.getElementById('player1Score');
-        const player2ScoreDisplay = document.getElementById('player2Score');
-        const drawScoreDisplay = document.getElementById('drawScore');
-        const player1Label = document.getElementById('player1Label');
-        const player2Label = document.getElementById('player2Label');
-        const difficultySection = document.getElementById('difficultySection');
+        const timeDisplay = document.getElementById('timeDisplay');
+        const startBtn = document.getElementById('startBtn');
+        const lapBtn = document.getElementById('lapBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const lapsContainer = document.getElementById('lapsContainer');
+        const lapsList = document.getElementById('lapsList');
 
-        // Winning combinations
-        const winningCombinations = [
-            [[0,0], [0,1], [0,2]], // rows
-            [[1,0], [1,1], [1,2]],
-            [[2,0], [2,1], [2,2]],
-            [[0,0], [1,0], [2,0]], // columns
-            [[0,1], [1,1], [2,1]],
-            [[0,2], [1,2], [2,2]],
-            [[0,0], [1,1], [2,2]], // diagonals
-            [[0,2], [1,1], [2,0]]
-        ];
+        function formatTime(time) {
+            const totalSeconds = Math.floor(time / 1000);
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+            const milliseconds = Math.floor((time % 1000) / 10);
 
-        function setGameMode(mode) {
-            gameMode = mode;
-            document.getElementById('pvpBtn').classList.toggle('active', mode === 'pvp');
-            document.getElementById('aiBtn').classList.toggle('active', mode === 'ai');
-            
-            if (mode === 'ai') {
-                difficultySection.classList.add('show');
-                player2Label.textContent = 'AI (O)';
+            return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}:<span class="milliseconds">${milliseconds.toString().padStart(2, '0')}</span>`;
+        }
+
+        function updateDisplay() {
+            timeDisplay.innerHTML = formatTime(elapsedTime);
+        }
+
+        function startStop() {
+            if (isRunning) {
+                // Pause
+                clearInterval(timerInterval);
+                startBtn.textContent = 'Start';
+                startBtn.className = 'btn btn-start';
+                lapBtn.disabled = true;
+                timeDisplay.classList.remove('running');
+                isRunning = false;
             } else {
-                difficultySection.classList.remove('show');
-                player2Label.textContent = 'Player O';
+                // Start
+                startTime = Date.now() - elapsedTime;
+                timerInterval = setInterval(() => {
+                    elapsedTime = Date.now() - startTime;
+                    updateDisplay();
+                }, 10);
+                
+                startBtn.textContent = 'Pause';
+                startBtn.className = 'btn btn-pause';
+                lapBtn.disabled = false;
+                timeDisplay.classList.add('running');
+                isRunning = true;
+            }
+        }
+
+        function reset() {
+            clearInterval(timerInterval);
+            elapsedTime = 0;
+            lapCount = 0;
+            isRunning = false;
+            
+            updateDisplay();
+            
+            startBtn.textContent = 'Start';
+            startBtn.className = 'btn btn-start';
+            lapBtn.disabled = true;
+            timeDisplay.classList.remove('running');
+            
+            // Clear laps
+            lapsList.innerHTML = '';
+            lapsContainer.style.display = 'none';
+        }
+
+        function recordLap() {
+            if (!isRunning) return;
+            
+            lapCount++;
+            const lapTime = elapsedTime;
+            
+            const lapItem = document.createElement('div');
+            lapItem.className = 'lap-item';
+            lapItem.innerHTML = `
+                <span class="lap-number">Lap ${lapCount}</span>
+                <span class="lap-time">${formatTime(lapTime).replace(/<[^>]*>/g, '')}</span>
+            `;
+            
+            // Insert at the beginning of the list (most recent first)
+            lapsList.insertBefore(lapItem, lapsList.firstChild);
+            
+            // Show laps container if it's hidden
+            if (lapsContainer.style.display === 'none') {
+                lapsContainer.style.display = 'block';
             }
             
-            resetGame();
+            // Add a subtle animation effect
+            lapItem.style.transform = 'scale(1.05)';
+            setTimeout(() => {
+                lapItem.style.transform = 'scale(1)';
+            }, 200);
         }
 
-        function setDifficulty(difficulty) {
-            aiDifficulty = difficulty;
-            document.querySelectorAll('.difficulty-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById(difficulty + 'Btn').classList.add('active');
-        }
-
-        function makeMove(row, col) {
-            if (!gameActive || board[row][col] !== '') return;
-
-            // Make the move
-            board[row][col] = currentPlayer;
-            const cell = document.getElementById(`cell-${row}-${col}`);
-            cell.textContent = currentPlayer;
-            cell.classList.add('taken', currentPlayer.toLowerCase());
-            cell.innerHTML = `<div class="cell-content">${currentPlayer}</div>`;
-
-            // Check for win or draw
-            const winner = checkWinner();
-            if (winner) {
-                endGame(winner);
-                return;
-            }
-
-            if (isBoardFull()) {
-                endGame('draw');
-                return;
-            }
-
-            // Switch player
-            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-            updateCurrentPlayerDisplay();
-
-            // AI move if in AI mode and it's O's turn
-            if (gameMode === 'ai' && currentPlayer === 'O' && gameActive) {
-                setTimeout(() => {
-                    makeAIMove();
-                }, 500);
-            }
-        }
-
-        function makeAIMove() {
-            let move;
-            
-            switch (aiDifficulty) {
-                case 'easy':
-                    move = getRandomMove();
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            switch(e.code) {
+                case 'Space':
+                    e.preventDefault();
+                    startStop();
                     break;
-                case 'medium':
-                    move = Math.random() < 0.5 ? getBestMove() : getRandomMove();
+                case 'KeyR':
+                    if (e.ctrlKey || e.metaKey) {
+                        e.preventDefault();
+                    } else {
+                        reset();
+                    }
                     break;
-                case 'hard':
-                    move = getBestMove();
+                case 'KeyL':
+                    if (!lapBtn.disabled) {
+                        recordLap();
+                    }
                     break;
             }
-            
-            if (move) {
-                makeMove(move.row, move.col);
-            }
-        }
+        });
 
-        function getRandomMove() {
-            const availableMoves = [];
-            for (let row = 0; row < 3; row++) {
-                for (let col = 0; col < 3; col++) {
-                    if (board[row][col] === '') {
-                        availableMoves.push({ row, col });
-                    }
-                }
-            }
-            return availableMoves[Math.floor(Math.random() * availableMoves.length)];
-        }
-
-        function getBestMove() {
-            // Check if AI can win
-            for (let row = 0; row < 3; row++) {
-                for (let col = 0; col < 3; col++) {
-                    if (board[row][col] === '') {
-                        board[row][col] = 'O';
-                        if (checkWinner() === 'O') {
-                            board[row][col] = '';
-                            return { row, col };
-                        }
-                        board[row][col] = '';
-                    }
-                }
-            }
-
-            // Check if AI needs to block player
-            for (let row = 0; row < 3; row++) {
-                for (let col = 0; col < 3; col++) {
-                    if (board[row][col] === '') {
-                        board[row][col] = 'X';
-                        if (checkWinner() === 'X') {
-                            board[row][col] = '';
-                            return { row, col };
-                        }
-                        board[row][col] = '';
-                    }
-                }
-            }
-
-            // Take center if available
-            if (board[1][1] === '') {
-                return { row: 1, col: 1 };
-            }
-
-            // Take corners
-            const corners = [[0,0], [0,2], [2,0], [2,2]];
-            for (const [row, col] of corners) {
-                if (board[row][col] === '') {
-                    return { row, col };
-                }
-            }
-
-            // Take any available move
-            return getRandomMove();
-        }
-
-        function checkWinner() {
-            for (const combination of winningCombinations) {
-                const [a, b, c] = combination;
-                if (board[a[0]][a[1]] && 
-                    board[a[0]][a[1]] === board[b[0]][b[1]] && 
-                    board[a[0]][a[1]] === board[c[0]][c[1]]) {
-                    
-                    // Highlight winning cells
-                    combination.forEach(([row, col]) => {
-                        document.getElementById(`cell-${row}-${col}`).classList.add('winner');
-                    });
-                    
-                    return board[a[0]][a[1]];
-                }
-            }
-            return null;
-        }
-
-        function isBoardFull() {
-            return board.every(row => row.every(cell => cell !== ''));
-        }
-
-        function endGame(result) {
-            gameActive = false;
-            
-            if (result === 'draw') {
-                gameStatusDisplay.textContent = "It's a Draw! 🤝";
-                scores.draws++;
-                drawScoreDisplay.textContent = scores.draws;
-            } else {
-                gameStatusDisplay.textContent = `${result} Wins! 🎉`;
-                scores[result]++;
-                if (result === 'X') {
-                    player1ScoreDisplay.textContent = scores.X;
-                } else {
-                    player2ScoreDisplay.textContent = scores.O;
-                }
-            }
-            
-            currentPlayerDisplay.textContent = 'Game Over';
-        }
-
-        function updateCurrentPlayerDisplay() {
-            if (gameActive) {
-                if (gameMode === 'ai' && currentPlayer === 'O') {
-                    currentPlayerDisplay.textContent = "AI's Turn";
-                } else {
-                    currentPlayerDisplay.textContent = `Player ${currentPlayer}'s Turn`;
-                }
-            }
-        }
-
-        function newRound() {
-            // Reset board
-            board = [
-                ['', '', ''],
-                ['', '', ''],
-                ['', '', '']
-            ];
-            
-            // Clear all cells
-            document.querySelectorAll('.cell').forEach(cell => {
-                cell.textContent = '';
-                cell.classList.remove('taken', 'x', 'o', 'winner');
-            });
-            
-            // Reset game state
-            currentPlayer = 'X';
-            gameActive = true;
-            gameStatusDisplay.textContent = '';
-            updateCurrentPlayerDisplay();
-        }
-
-        function resetGame() {
-            newRound();
-            
-            // Reset scores
-            scores = { X: 0, O: 0, draws: 0 };
-            player1ScoreDisplay.textContent = '0';
-            player2ScoreDisplay.textContent = '0';
-            drawScoreDisplay.textContent = '0';
-        }
-
-        // Initialize game
-        updateCurrentPlayerDisplay();
+        // Initialize display
+        updateDisplay();
     </script>
 </body>
 </html>
